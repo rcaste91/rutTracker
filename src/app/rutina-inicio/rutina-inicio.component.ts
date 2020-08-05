@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { RutinaService } from '../data/rutina.service';
 import { IrutinaTemp } from '../data/IrutinaTemp';
-import { interval, Observable, timer, NEVER, empty,of, scheduled} from 'rxjs';
-import { map, tap, takeWhile, share, startWith, switchMap, filter } from 'rxjs/operators';
+import { interval, NEVER, empty,of,  fromEvent, timer, BehaviorSubject} from 'rxjs';
+import { switchMap, map, timeout, takeWhile } from 'rxjs/operators';
 import { ActivatedRoute, Router } from '@angular/router';
+import { nextTick } from 'process';
 
 @Component({
   selector: 'app-rutina-inicio',
@@ -23,7 +24,6 @@ export class RutinaInicioComponent implements OnInit {
   estadoRutina:boolean=false;         //verificar si rutina esta iniciada o en pausa
   tiempoArreglo:number[];
   counter:number=0;
-  crono:any;
 
   constructor(private rutinaService: RutinaService,
               private route:ActivatedRoute,
@@ -37,37 +37,49 @@ export class RutinaInicioComponent implements OnInit {
     this.tiempoArreglo=this.crearArregloTiempo(); 
     this.tiempo=this.tiempoArreglo[this.counter];
 
-    this.crono=of(this.tiempoArreglo).pipe(
-      switchMap((estadoRutina)=>(estadoRutina ? interval(1000):NEVER))
-    );
-      this.initService();
+    this.initService();
+      
   }
 
+
   initService():void{
-    this.crono.subscribe( n =>
+
+    const toggle = new BehaviorSubject(true);
+    const toRemainingSeconds = (t: number) => 100-t;
+    
+    const crono=toggle
+    .pipe(switchMap((running : boolean)=>(running ? interval(1000):NEVER)),
+    map(toRemainingSeconds),
+    takeWhile(val => val != 0),
+    );
+  
+
+    crono.subscribe( n =>
       {
-        if(this.estadoRutina){
-          if(this.tiempo!=0){
-            this.tiempo=this.tiempo-1;
-            if(this.tiempo<4 && this.tiempo>0){
-              this.audioReady.play();
-            }
-            if(this.tiempo==0){
-              this.audioComplete.play();
-            }
-          }else{
-            this.counter++;
-            if(this.counter<this.tiempoArreglo.length){
-              this.tiempo=this.tiempoArreglo[this.counter];
+        console.log(n);
+        
+          if(this.estadoRutina){
+            if(this.tiempo!=0){
+              this.tiempo=this.tiempo-1;
+              if(this.tiempo<4 && this.tiempo>0){
+                this.audioReady.play();
+              }
+              if(this.tiempo==0){
+                this.audioComplete.play();
+              }
             }else{
-              this.onEnd();
+              this.counter++;
+              if(this.counter<this.tiempoArreglo.length){
+                this.tiempo=this.tiempoArreglo[this.counter];
+              }else{
+                this.onEnd();
+              }
             }
           }
-        }else{
-          empty();
-        }
-        
+      
       });
+      
+
   }
 
   inicioTimer(): void {
@@ -103,10 +115,15 @@ export class RutinaInicioComponent implements OnInit {
   }
 
   onEnd() :void {
+    this.audioComplete = new Audio();
+    this.audioReady = new Audio();
+    this.estadoRutina=false;
     this.router.navigate(['/rutina']);
   }
 
   onCancelar() :void {
+    this.audioComplete = new Audio();
+    this.audioReady = new Audio();
     this.router.navigate(['/rutina']);
   }
 
