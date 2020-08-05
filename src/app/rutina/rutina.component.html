@@ -1,0 +1,60 @@
+<h1>Crear Rutina</h1>
+
+<div class="card form-group">
+    <div class="card-header"># Ejercicios en tu rutina:</div>
+    <table class="table">
+        <tbody>
+            <tr class="form-row">
+                <td class="col-md-2">
+                    <input type="number" class="form-control" name="numberE" [(ngModel)]="numberE" >
+                </td>
+                <td class="col-md-2">
+                    <button type="button" (click)='onStartR()' class="btn btn-primary form-control">
+                        {{btnStart}}
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<form #form="ngForm" (ngSubmit)="onSubmit(form)">
+<div class="table-responsive">
+    <table class="table"
+            *ngIf='ejercicios && ejercicios.length'>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Ejercicio</th>
+                <th>Tiempo</th>
+            </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor='let ejercicio of ejercicios '>
+            <td>{{(ejercicio.id)+1}}</td>
+            <td><input type="text" name="nombreEjercicio" [(ngModel)]="ejercicios[ejercicio.id].nombre"></td>
+            <td><input type="number" placeholder="segundos" name="tiempoEjercicio" [(ngModel)]="ejercicios[ejercicio.id].tiempo"></td>    
+        </tr>
+    </tbody>
+    </table>
+</div>
+
+<div class="form-group">
+<table class="table"
+        *ngIf='ejercicios && ejercicios.length'>
+    <tbody>
+        <tr class="form-row">
+            <td class="col-md-2">
+                <label for="tDescanso">Tiempo de descanso entre ejercicios</label>
+            </td>
+            <td class="col-md-4">
+                <input type="number" placeholder="segundos" name="tDescanso" [(ngModel)]="tDescanso">
+            </td>
+        </tr>
+        <tr class="form-row">
+            <td><button class="btn btn-primary">Iniciar</button></td>
+        </tr>
+    </tbody>
+</table>
+</div>
+</form>

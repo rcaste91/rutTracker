@@ -1,0 +1,20 @@
+<h1>Lista de Rutinas</h1>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">Rutina</th>
+            <th scope="col">Iniciar</th>
+            <th scope="col">Editar</th>
+            <th scope="col">Compartir</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor='let r of rutinas'>
+            <td>{{r.rutinaNombre}}</td>
+            <td><a class="nav-link" [routerLink]="['/ejercicio', r.rutinaId]">Ejercicio </a></td>
+            <td><button class="btn-danger">Eliminar</button></td>
+            <td><button class="btn-primary">Compartir</button></td>
+        </tr>
+    </tbody>
+</table>
