@@ -11,10 +11,11 @@ import { RutinaService } from '../data/rutina.service';
 })
 export class RutinaComponent implements OnInit {
 
-  btnStart = "Start";
+  btnStart = "Empezar";
   numberE:number;
   tDescanso:string;
   ejercicios: IrutinaTemp[]=[];
+  errorForm: boolean = false;
 
   constructor(private route:ActivatedRoute,
               private router: Router,
@@ -26,6 +27,7 @@ export class RutinaComponent implements OnInit {
   ///Crear tabla para ingresar ejercicios y tiempos
   onStartR(): void{
 
+    this.ejercicios=[];
     var numberLoop = this.numberE;
 
     for(var i=0;i<numberLoop;i++){
@@ -35,9 +37,15 @@ export class RutinaComponent implements OnInit {
   }
 
   onSubmit(form:NgForm){
+    
+    if (form.valid){
       this.rutinaService.rutina = this.ejercicios;
       this.rutinaService.tDescanso=this.tDescanso;
       this.router.navigate(['/rutinaInicio']);
+    }else{
+      this.errorForm=true;
+    }
+
   }
 
 }

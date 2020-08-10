@@ -17,12 +17,14 @@ export class RutinaInicioComponent implements OnInit {
   tDescanso:string;
   mensajeBoton:string = "Iniciar";
   tiempo:number=0;
+  ejercicio:string="";
   audioComplete = new Audio();
   audioReady= new Audio();
 
   inicioRutina:boolean=false;
   estadoRutina:boolean=false;         //verificar si rutina esta iniciada o en pausa
   tiempoArreglo:number[];
+  ejercicioArreglo:string[];
   counter:number=0;
 
   constructor(private rutinaService: RutinaService,
@@ -35,6 +37,7 @@ export class RutinaInicioComponent implements OnInit {
 
     this.loadSounds();
     this.tiempoArreglo=this.crearArregloTiempo(); 
+    this.ejercicioArreglo=this.crearArregloEjercicio();
     this.tiempo=this.tiempoArreglo[this.counter];
 
     this.initService();
@@ -56,7 +59,7 @@ export class RutinaInicioComponent implements OnInit {
 
     crono.subscribe( n =>
       {
-        console.log(n);
+        //console.log(n);
         
           if(this.estadoRutina){
             if(this.tiempo!=0){
@@ -70,6 +73,8 @@ export class RutinaInicioComponent implements OnInit {
             }else{
               this.counter++;
               if(this.counter<this.tiempoArreglo.length){
+                console.log(this.ejercicioArreglo[this.counter]);
+                this.ejercicio=this.ejercicioArreglo[this.counter];
                 this.tiempo=this.tiempoArreglo[this.counter];
               }else{
                 this.onEnd();
@@ -112,6 +117,23 @@ export class RutinaInicioComponent implements OnInit {
     });
 
     return arrTiempo;
+  }
+
+  crearArregloEjercicio():string[]{
+
+    let arrEjercicio:string[]=[];
+    let counter:number = 0;
+    arrEjercicio.push("Inicio");
+
+    this.rutina.forEach( r => {
+      arrEjercicio.push(r.nombre);
+      if(counter!=(this.rutina.length-1)){
+        arrEjercicio.push("Descanso");
+      }
+      counter++;
+    });
+
+    return arrEjercicio;
   }
 
   onEnd() :void {
