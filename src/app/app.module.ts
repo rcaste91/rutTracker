@@ -27,8 +27,8 @@ import { RutinaInicioComponent } from './rutina-inicio/rutina-inicio.component';
     FormsModule,
     BrowserModule,
     RouterModule.forRoot([
-      {path:'welcome', component:RutinaListaComponent},
-      {path:'ejercicio/:id', component:EjercicioListaComponent},
+      {path:'welcome', component:RutinaComponent},
+      //{path:'ejercicio/:id', component:EjercicioListaComponent},
       {path:'rutina', component:RutinaComponent},
       {path:'rutinaInicio',component:RutinaInicioComponent},
       {path:'', redirectTo:'welcome', pathMatch:'full'},
