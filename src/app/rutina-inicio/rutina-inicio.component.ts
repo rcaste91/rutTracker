@@ -21,7 +21,7 @@ export class RutinaInicioComponent implements OnInit {
   audioComplete = new Audio();
   audioReady= new Audio();
 
-  inicioRutina:boolean=false;
+  banderaRutina:boolean=false;
   estadoRutina:boolean=false;         //verificar si rutina esta iniciada o en pausa
   tiempoArreglo:number[];
   ejercicioArreglo:string[];
@@ -40,48 +40,75 @@ export class RutinaInicioComponent implements OnInit {
     this.ejercicioArreglo=this.crearArregloEjercicio();
     this.tiempo=this.tiempoArreglo[this.counter];
 
-    this.initService();
+    //this.initService();
       
   }
 
+  timer():void{
+        
+    if(this.estadoRutina){
+      if(this.tiempo!=0){
+        this.tiempo=this.tiempo-1;
+        if(this.tiempo<4 && this.tiempo>0){
+          this.audioReady.play();
+        }
+        if(this.tiempo==0){
+          this.audioComplete.play();
+        }
+      }else{
+        this.counter++;
+        if(this.counter<this.tiempoArreglo.length){
+          this.ejercicio=this.ejercicioArreglo[this.counter];
+          this.tiempo=this.tiempoArreglo[this.counter];
+        }else{
+          this.onEnd();
+        }
+      }
+    }
+
+  }
 
   initService():void{
 
+    /*
+    let totalTiempo = this.tiempoArreglo.reduce((a,b)=> a+b);
     const toggle = new BehaviorSubject(true);
-    const toRemainingSeconds = (t: number) => 100-t;
+    const toRemainingSeconds = (t: number) => totalTiempo -t;
     
     const crono=toggle
     .pipe(switchMap((running : boolean)=>(running ? interval(1000):NEVER)),
     map(toRemainingSeconds),
     takeWhile(val => val != 0),
     );
-  
+    */
+
+    const crono=interval(1000)
+      .pipe(takeWhile (x => this.banderaRutina));
 
     crono.subscribe( n =>
       {
-        //console.log(n);
-        
-          if(this.estadoRutina){
-            if(this.tiempo!=0){
-              this.tiempo=this.tiempo-1;
-              if(this.tiempo<4 && this.tiempo>0){
-                this.audioReady.play();
-              }
-              if(this.tiempo==0){
-                this.audioComplete.play();
-              }
+        console.log(this.banderaRutina);
+        console.log(n);
+        if(this.estadoRutina){
+          if(this.tiempo!=0){
+            this.tiempo=this.tiempo-1;
+            if(this.tiempo<4 && this.tiempo>0){
+              this.audioReady.play();
+            }
+            if(this.tiempo==0){
+              this.audioComplete.play();
+            }
+          }else{
+            this.counter++;
+            if(this.counter<this.tiempoArreglo.length){
+              this.ejercicio=this.ejercicioArreglo[this.counter];
+              this.tiempo=this.tiempoArreglo[this.counter];
             }else{
-              this.counter++;
-              if(this.counter<this.tiempoArreglo.length){
-                console.log(this.ejercicioArreglo[this.counter]);
-                this.ejercicio=this.ejercicioArreglo[this.counter];
-                this.tiempo=this.tiempoArreglo[this.counter];
-              }else{
-                this.onEnd();
-              }
+              this.banderaRutina=false;
+              this.onEnd();
             }
           }
-      
+        }
       });
       
 
@@ -89,7 +116,11 @@ export class RutinaInicioComponent implements OnInit {
 
   inicioTimer(): void {
 
-    this.inicioRutina=true;
+    if(!this.banderaRutina){
+      this.initService();
+      this.banderaRutina=true;
+    }
+
     this.estadoRutina=!this.estadoRutina;
     if(this.estadoRutina){
       this.mensajeBoton="Pausa";
@@ -146,6 +177,7 @@ export class RutinaInicioComponent implements OnInit {
   onCancelar() :void {
     this.audioComplete = new Audio();
     this.audioReady = new Audio();
+    this.banderaRutina=false;
     this.router.navigate(['/rutina']);
   }
 
