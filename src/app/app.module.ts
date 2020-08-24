@@ -12,6 +12,7 @@ import {environment} from '../environments/environment';
 import { EjercicioListaComponent } from './ejercicio-lista/ejercicio-lista.component';
 import { RutinaComponent } from './rutina/rutina.component';
 import { RutinaInicioComponent } from './rutina-inicio/rutina-inicio.component';
+import { WelcomeComponent } from './welcome/welcome.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { RutinaInicioComponent } from './rutina-inicio/rutina-inicio.component';
     RutinaListaComponent,
     EjercicioListaComponent,
     RutinaComponent,
-    RutinaInicioComponent
+    RutinaInicioComponent,
+    WelcomeComponent
   ],
   imports: [
     AngularFireModule.initializeApp(environment.firebase),
@@ -27,7 +29,7 @@ import { RutinaInicioComponent } from './rutina-inicio/rutina-inicio.component';
     FormsModule,
     BrowserModule,
     RouterModule.forRoot([
-      {path:'welcome', component:RutinaComponent},
+      {path:'welcome', component:WelcomeComponent},
       //{path:'ejercicio/:id', component:EjercicioListaComponent},
       {path:'rutina', component:RutinaComponent},
       {path:'rutinaInicio',component:RutinaInicioComponent},
