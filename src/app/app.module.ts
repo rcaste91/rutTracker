@@ -13,6 +13,7 @@ import { EjercicioListaComponent } from './ejercicio-lista/ejercicio-lista.compo
 import { RutinaComponent } from './rutina/rutina.component';
 import { RutinaInicioComponent } from './rutina-inicio/rutina-inicio.component';
 import { WelcomeComponent } from './welcome/welcome.component';
+import { RutinaFinComponent } from './rutina-fin/rutina-fin.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { WelcomeComponent } from './welcome/welcome.component';
     EjercicioListaComponent,
     RutinaComponent,
     RutinaInicioComponent,
-    WelcomeComponent
+    WelcomeComponent,
+    RutinaFinComponent
   ],
   imports: [
     AngularFireModule.initializeApp(environment.firebase),
@@ -33,6 +35,7 @@ import { WelcomeComponent } from './welcome/welcome.component';
       //{path:'ejercicio/:id', component:EjercicioListaComponent},
       {path:'rutina', component:RutinaComponent},
       {path:'rutinaInicio',component:RutinaInicioComponent},
+      {path:'rutinaFin',component:RutinaFinComponent},
       {path:'', redirectTo:'welcome', pathMatch:'full'},
       {path:'**',redirectTo:'welcome',pathMatch:'full'}
     ])

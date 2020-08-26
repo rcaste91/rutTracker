@@ -1,8 +1,8 @@
 
-<div class="container">
+<div class="container" style="padding-top: 56px">
     <div class="row">
 
-    <div class="col-sm-6 col-xs-6">
+    <div *ngIf='!banderaRutina' class="col-sm-6 col-xs-6 mx-auto">
     <div class="card">
         <div class="card-header">
             <h3>Tu rutina para esta sesion es:</h3>
@@ -45,16 +45,33 @@
     </div>
     </div>
 
-    <div class="col-sm-2 col-xs-2">
-        <div class="row">
-            <div class="col-sm-6 col-xs-6"></div>
-            <div class="col-sm-6 col-xs-6">
-                <div *ngIf='banderaRutina' class="align-middle mx-auto">
-                    <h1 class="display-1" name="ejercicioC" id="ejercicioC">{{ejercicio}}</h1>
-                    <h1 class="display-1" name="contador" id="contador">{{tiempo}}</h1>
+    <div *ngIf='banderaRutina' class="col mx-auto">
+        <div class="card">
+            <div class="card-header">
+                <h3 name="ejercicioC" id="ejercicioC">{{ejercicio}}</h3>
+            </div>
+            <div class="card-body text-center">
+                <h1 class="display-1" name="contador" id="contador">{{tiempo}}</h1>
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar"  [style.width.%]="progress" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                  </div>
+            </div>
+            <div class="card-footer">
+                <div class="row">
+                <div class="col-sm-2 col-xs-2">
+                    <button type="button"  (click)='inicioTimer()' class="btn btn-primary">
+                        <i class="fa fa-play" aria-hidden="true"></i>
+                        {{mensajeBoton}}
+                    </button>
+                </div>
+                <div class="col-sm-2 col-xs-2">
+                    <button type="button" (click)='onCancelar()' class="btn btn-danger">
+                        <i class="fa fa-stop-circle" aria-hidden="true"></i>
+                        Cancelar
+                    </button>
+                </div>
                 </div>
             </div>
-            
         </div>
     </div>
 

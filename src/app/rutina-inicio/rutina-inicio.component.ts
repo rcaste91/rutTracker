@@ -17,7 +17,8 @@ export class RutinaInicioComponent implements OnInit {
   tDescanso:string;
   mensajeBoton:string = "Iniciar";
   tiempo:number=0;
-  ejercicio:string="";
+  progress:number=0;
+  ejercicio:string="Vamos, tu puedes";
   audioComplete = new Audio();
   audioReady= new Audio();
 
@@ -46,20 +47,31 @@ export class RutinaInicioComponent implements OnInit {
 
   timer():void{
         
+    let tiempoEjercicio=0;
+
     if(this.estadoRutina){
       if(this.tiempo!=0){
+        //reduccion a 1 seg de timer
         this.tiempo=this.tiempo-1;
+        this.progress= this.calculoProgress(this.tiempo,tiempoEjercicio);
+        console.log("progrso "+this.progress);
+
+        //logica para sonidos de countdown
         if(this.tiempo<4 && this.tiempo>0){
           this.audioReady.play();
         }
         if(this.tiempo==0){
           this.audioComplete.play();
         }
+
       }else{
+
+        //logica para seguir al siguiente ejercicio
         this.counter++;
         if(this.counter<this.tiempoArreglo.length){
           this.ejercicio=this.ejercicioArreglo[this.counter];
           this.tiempo=this.tiempoArreglo[this.counter];
+          tiempoEjercicio =this.tiempoArreglo[this.counter];
         }else{
           this.onEnd();
         }
@@ -68,41 +80,43 @@ export class RutinaInicioComponent implements OnInit {
 
   }
 
+  calculoProgress(progress:number, progressCompleto:number):number{
+
+    let valorProgress =(progress*100)/progressCompleto;
+    return valorProgress;
+  }
+
   initService():void{
 
-    /*
-    let totalTiempo = this.tiempoArreglo.reduce((a,b)=> a+b);
-    const toggle = new BehaviorSubject(true);
-    const toRemainingSeconds = (t: number) => totalTiempo -t;
-    
-    const crono=toggle
-    .pipe(switchMap((running : boolean)=>(running ? interval(1000):NEVER)),
-    map(toRemainingSeconds),
-    takeWhile(val => val != 0),
-    );
-    */
+    let tiempoEjercicio=0;
 
     const crono=interval(1000)
       .pipe(takeWhile (x => this.banderaRutina));
 
     crono.subscribe( n =>
       {
-        console.log(this.banderaRutina);
-        console.log(n);
         if(this.estadoRutina){
           if(this.tiempo!=0){
+            //reduccion a 1 seg de timer
             this.tiempo=this.tiempo-1;
+            this.progress= this.calculoProgress((tiempoEjercicio - this.tiempo),tiempoEjercicio);
+
+            //logica para sonidos de countdown
             if(this.tiempo<4 && this.tiempo>0){
               this.audioReady.play();
             }
             if(this.tiempo==0){
               this.audioComplete.play();
             }
+
           }else{
+            //logica para seguir al siguiente ejercicio
             this.counter++;
             if(this.counter<this.tiempoArreglo.length){
+              this.progress=0;
               this.ejercicio=this.ejercicioArreglo[this.counter];
               this.tiempo=this.tiempoArreglo[this.counter];
+              tiempoEjercicio =this.tiempoArreglo[this.counter];
             }else{
               this.banderaRutina=false;
               this.onEnd();
@@ -171,7 +185,7 @@ export class RutinaInicioComponent implements OnInit {
     this.audioComplete = new Audio();
     this.audioReady = new Audio();
     this.estadoRutina=false;
-    this.router.navigate(['/rutina']);
+    this.router.navigate(['/rutinaFin']);
   }
 
   onCancelar() :void {
