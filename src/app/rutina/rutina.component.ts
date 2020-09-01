@@ -11,7 +11,7 @@ import { RutinaService } from '../data/rutina.service';
 })
 export class RutinaComponent implements OnInit {
 
-  btnStart = "Empezar";
+  btnStart = "Plan";
   numberE:number;
   tDescanso:string;
   ejercicios: IrutinaTemp[]=[];

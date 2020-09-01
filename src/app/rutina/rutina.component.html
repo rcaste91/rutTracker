@@ -1,15 +1,15 @@
 <div class="form-group"> 
-<h1>💪 Arma tu Rutina </h1>
+<h1>💪 Build your routine </h1>
 </div>
 
 <div class="card">
-    <div class="card-header">Ejercicios en tu rutina:</div>
+    <div class="card-header">Exercises for your circuit:</div>
     <div class="card-body">
     <table class="table">
         <tbody>
             <tr class="form-row">
                 <td class="col-md-2 col-xs-2">
-                    <input type="number" class="form-control" placeholder="Numero" 
+                    <input type="number" class="form-control" placeholder="Number" 
                         name="numberE" [(ngModel)]="numberE" /> 
                 </td>
                 <td class="col-md-2 col-xs-2">
@@ -30,8 +30,8 @@
         <thead>
             <tr>
                 <th>#</th>
-                <th>Ejercicio</th>
-                <th>Tiempo</th>
+                <th>Exercise</th>
+                <th>Time</th>
             </tr>
         </thead>
         <tbody>
@@ -39,7 +39,7 @@
             <td>{{(ejercicio.id)+1}}</td>
             <td><input type="text" name="nombreEjercicio" [(ngModel)]="ejercicios[ejercicio.id].nombre"
                     required #nameField="ngModel" #nameField="ngModel" [class.field-error]="form.submitted && nameField.invalid"></td>
-            <td><input type="number" placeholder="segundos" name="tiempoEjercicio" [(ngModel)]="ejercicios[ejercicio.id].tiempo"
+            <td><input type="number" placeholder="seconds" name="tiempoEjercicio" [(ngModel)]="ejercicios[ejercicio.id].tiempo"
                  required #numField="ngModel" #numField="ngModel" [class.field-error]="form.submitted && numField.invalid"></td>    
         </tr>
     </tbody>
@@ -52,23 +52,23 @@
     <tbody>
         <tr class="form-row">
             <td class="col-md-4 col-xs-4">
-                <label for="tDescanso">Tiempo de descanso entre ejercicios</label>
+                <label for="tDescanso">Rest period between exercises</label>
             </td>
             <td class="col-md-2 col-xs-2">
-                <input type="number" placeholder="segundos" name="tDescanso" [(ngModel)]="tDescanso"
+                <input type="number" placeholder="seconds" name="tDescanso" [(ngModel)]="tDescanso"
                 required #restField="ngModel" #numField="ngModel" [class.field-error]="form.submitted && restField.invalid">
             </td>
         </tr>
         <tr *ngIf='errorForm'>
             <td>
-                Favor llenar campos vacios
+                PLease fill empty fields
             </td>
         </tr>
         <tr class="form-row">
             <td>
                 <button class="btn btn-primary">
                     <i class="fa fa-flag-checkered" aria-hidden="true"></i>
-                    Iniciar
+                    Start
                 </button></td>
         </tr>
     </tbody>

@@ -1,22 +1,32 @@
-<div class="form-group"> 
-    <h1>¡Excelente trabajo, has completado tu rutina! 🏆</h1>
-</div>
 
-<div class="container">
-    <table class="table table-responsive">
-        <tbody>
-            <tr>
-                <td>
-                    <button type="button" (click)='onRepetirR()' class="btn btn-outline-primary form-control">
-                        Repetir
-                    </button>
-                </td>
-                <td>
-                    <button type="button" (click)='onNuevaR()' class="btn btn-outline-primary form-control">
-                        Nueva Rutina
-                    </button>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+<div class="container" style="padding-top: 56px">
+    
+    <div class="row">
+        
+        <div class="col-sm">
+            <h1 class="animate__animated animate__slideInUp" style="text-align: center">Great job! You've finished your training session. </h1>
+          </div>
+           
+    </div>
+
+    <div class="row">
+        <div class="col-sm">
+           <h1 class="animate__animated animate__slideInUp" style="text-align: center">🏆</h1>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm"></div>
+        <div class="col-sm">
+            <button type="button" (click)='onRepetirR()' class="btn btn-outline-primary form-control">
+                Repeat
+            </button>
+        </div>
+        <div class="col-sm">
+            <button type="button" (click)='onNuevaR()' class="btn btn-outline-primary form-control">
+                New Routine
+            </button>
+          </div>
+          <div class="col-sm"></div>
+    </div>
 </div>

@@ -15,10 +15,10 @@ export class RutinaInicioComponent implements OnInit {
 
   rutina:IrutinaTemp[];
   tDescanso:string;
-  mensajeBoton:string = "Iniciar";
+  mensajeBoton:string = "Start";
   tiempo:number=0;
   progress:number=0;
-  ejercicio:string="Vamos, tu puedes";
+  ejercicio:string="You've got this, let's go!";
   audioComplete = new Audio();
   audioReady= new Audio();
 
@@ -54,7 +54,6 @@ export class RutinaInicioComponent implements OnInit {
         //reduccion a 1 seg de timer
         this.tiempo=this.tiempo-1;
         this.progress= this.calculoProgress(this.tiempo,tiempoEjercicio);
-        console.log("progrso "+this.progress);
 
         //logica para sonidos de countdown
         if(this.tiempo<4 && this.tiempo>0){
@@ -137,9 +136,9 @@ export class RutinaInicioComponent implements OnInit {
 
     this.estadoRutina=!this.estadoRutina;
     if(this.estadoRutina){
-      this.mensajeBoton="Pausa";
+      this.mensajeBoton="Pause";
     }else{
-      this.mensajeBoton="Iniciar";
+      this.mensajeBoton="Resume";
     }
 
   }
@@ -168,12 +167,12 @@ export class RutinaInicioComponent implements OnInit {
 
     let arrEjercicio:string[]=[];
     let counter:number = 0;
-    arrEjercicio.push("Inicio");
+    arrEjercicio.push("Start");
 
     this.rutina.forEach( r => {
       arrEjercicio.push(r.nombre);
       if(counter!=(this.rutina.length-1)){
-        arrEjercicio.push("Descanso");
+        arrEjercicio.push("Break");
       }
       counter++;
     });
