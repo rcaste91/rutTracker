@@ -1,8 +1,9 @@
 <div class="form-group"> 
-<h1>💪 Build your routine </h1>
+    <p></p>
+        <h1>💪 Build your routine </h1>
 </div>
 
-<div class="card">
+<div class="card ">
     <div class="card-header">Exercises for your circuit:</div>
     <div class="card-body">
     <table class="table">
@@ -37,7 +38,7 @@
         <tbody>
         <tr *ngFor='let ejercicio of ejercicios '>
             <td>{{(ejercicio.id)+1}}</td>
-            <td><input type="text" name="nombreEjercicio" [(ngModel)]="ejercicios[ejercicio.id].nombre"
+            <td><input type="text" placeholder="exercise" name="nombreEjercicio" [(ngModel)]="ejercicios[ejercicio.id].nombre"
                     required #nameField="ngModel" #nameField="ngModel" [class.field-error]="form.submitted && nameField.invalid"></td>
             <td><input type="number" placeholder="seconds" name="tiempoEjercicio" [(ngModel)]="ejercicios[ejercicio.id].tiempo"
                  required #numField="ngModel" #numField="ngModel" [class.field-error]="form.submitted && numField.invalid"></td>    

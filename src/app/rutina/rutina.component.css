@@ -1,3 +1,8 @@
 .field-error {
     border: 1px solid red;
     }
+.gradient-custom
+    {
+        background-color: #12213b; 
+        background-image: linear-gradient(to left,#12213b, #193a72); 
+    }

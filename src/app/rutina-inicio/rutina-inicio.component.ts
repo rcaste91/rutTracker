@@ -19,6 +19,7 @@ export class RutinaInicioComponent implements OnInit {
   tiempo:number=0;
   progress:number=0;
   ejercicio:string="You've got this, let's go!";
+  sigEjercicio:string="";
   audioComplete = new Audio();
   audioReady= new Audio();
 
@@ -35,48 +36,10 @@ export class RutinaInicioComponent implements OnInit {
   ngOnInit(): void {
     this.rutina=this.rutinaService.rutina;
     this.tDescanso=this.rutinaService.tDescanso;
-
     this.loadSounds();
     this.tiempoArreglo=this.crearArregloTiempo(); 
     this.ejercicioArreglo=this.crearArregloEjercicio();
-    this.tiempo=this.tiempoArreglo[this.counter];
-
-    //this.initService();
-      
-  }
-
-  timer():void{
-        
-    let tiempoEjercicio=0;
-
-    if(this.estadoRutina){
-      if(this.tiempo!=0){
-        //reduccion a 1 seg de timer
-        this.tiempo=this.tiempo-1;
-        this.progress= this.calculoProgress(this.tiempo,tiempoEjercicio);
-
-        //logica para sonidos de countdown
-        if(this.tiempo<4 && this.tiempo>0){
-          this.audioReady.play();
-        }
-        if(this.tiempo==0){
-          this.audioComplete.play();
-        }
-
-      }else{
-
-        //logica para seguir al siguiente ejercicio
-        this.counter++;
-        if(this.counter<this.tiempoArreglo.length){
-          this.ejercicio=this.ejercicioArreglo[this.counter];
-          this.tiempo=this.tiempoArreglo[this.counter];
-          tiempoEjercicio =this.tiempoArreglo[this.counter];
-        }else{
-          this.onEnd();
-        }
-      }
-    }
-
+    this.tiempo=this.tiempoArreglo[this.counter];      
   }
 
   calculoProgress(progress:number, progressCompleto:number):number{
@@ -95,6 +58,7 @@ export class RutinaInicioComponent implements OnInit {
     crono.subscribe( n =>
       {
         if(this.estadoRutina){
+
           if(this.tiempo!=0){
             //reduccion a 1 seg de timer
             this.tiempo=this.tiempo-1;
@@ -114,22 +78,30 @@ export class RutinaInicioComponent implements OnInit {
             if(this.counter<this.tiempoArreglo.length){
               this.progress=0;
               this.ejercicio=this.ejercicioArreglo[this.counter];
+              //logica para label siguiente ejercicio
+              if(this.counter+1<this.tiempoArreglo.length){
+                this.sigEjercicio="Next: "+this.ejercicioArreglo[this.counter+1];
+              }else{
+                this.sigEjercicio="";
+              }
+              //
               this.tiempo=this.tiempoArreglo[this.counter];
               tiempoEjercicio =this.tiempoArreglo[this.counter];
             }else{
               this.banderaRutina=false;
               this.onEnd();
             }
+
           }
         }
       });
       
-
   }
 
   inicioTimer(): void {
 
     if(!this.banderaRutina){
+      this.sigEjercicio="Next: "+this.ejercicioArreglo[1];
       this.initService();
       this.banderaRutina=true;
     }

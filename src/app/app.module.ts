@@ -15,6 +15,11 @@ import { RutinaInicioComponent } from './rutina-inicio/rutina-inicio.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { RutinaFinComponent } from './rutina-fin/rutina-fin.component';
 
+import { SocialLoginModule, SocialAuthServiceConfig } from 'angularx-social-login';
+import {GoogleLoginProvider,FacebookLoginProvider} from 'angularx-social-login';
+import { LoginComponent } from './login/login.component';
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -23,16 +28,18 @@ import { RutinaFinComponent } from './rutina-fin/rutina-fin.component';
     RutinaComponent,
     RutinaInicioComponent,
     WelcomeComponent,
-    RutinaFinComponent
+    RutinaFinComponent,
+    LoginComponent
   ],
   imports: [
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
     FormsModule,
+    SocialLoginModule,
     BrowserModule,
     RouterModule.forRoot([
       {path:'welcome', component:WelcomeComponent},
-      //{path:'ejercicio/:id', component:EjercicioListaComponent},
+      //{path:'login', component:LoginComponent},
       {path:'rutina', component:RutinaComponent},
       {path:'rutinaInicio',component:RutinaInicioComponent},
       {path:'rutinaFin',component:RutinaFinComponent},
@@ -40,7 +47,20 @@ import { RutinaFinComponent } from './rutina-fin/rutina-fin.component';
       {path:'**',redirectTo:'welcome',pathMatch:'full'}
     ])
   ],
-  providers: [],
+  providers: [
+    {
+      provide: 'SocialAuthServiceConfig',
+      useValue: {
+        autoLogin: false,
+        providers: [
+          {
+            id: FacebookLoginProvider.PROVIDER_ID,
+            provider: new FacebookLoginProvider('1480824862089538'),
+          },
+        ],
+      } as SocialAuthServiceConfig,
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
